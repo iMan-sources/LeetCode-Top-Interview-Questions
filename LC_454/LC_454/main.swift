@@ -2,43 +2,45 @@
 //  main.swift
 //  LC_454
 //
-//  Created by AnhVT12.REC on 8/16/22.
+//  Created by AnhLe on 25/07/2022.
 //
 
 import Foundation
-// step 1: find sum appeared in nums1 & nums2, if sum_1 existed count += 1
-// step 2: find sum appeared in nums3 & nums4, check if dict[0-sum_2] existed -> sum = 0 -> count += appearance of dict[0-sum]
-//ex: num1 & num2:  dict[2] = 2
-//num3 & num4: sum: -2, -2,...
-//i = 0 -> count = 0 -> count += dict[2] = 2
-//i = 1 -> count = 2 -> count  += dict[2] = 4
+
 func fourSumCount(_ nums1: [Int], _ nums2: [Int], _ nums3: [Int], _ nums4: [Int]) -> Int {
-    let lim = nums1.count
-    var count = 0
-    var dict = [Int: Int]()
-    for i in 0..<lim {
-        for j in 0..<lim{
-            let sum = nums1[i] + nums2[j]
-            if dict[sum] != nil {
-                dict[sum]! += 1
-            }else{
-                dict[sum] = 1
+    let nums1 = nums1.sorted()
+    let nums2 = nums2.sorted()
+    let nums3 = nums3.sorted()
+    let nums4 = nums4.sorted()
+    
+    var l = 0, j = 0, k = 0
+    for i in 0..<nums4.count{
+        while true {
+            let sum = nums1[l] + nums2[j] + nums3[k] + nums4[i]
+            if sum == 0{
+                print(k);
             }
-            
+            else if sum - nums1[l] < 0 && l + 1 < nums1.count {
+                l += 1
+            }
+            else if sum - nums1[l] > 0 && l - 1 >= 0 {
+                l -= 1
+            }
+            else if sum - nums2[j] < 0 && j + 1 < nums1.count {
+                j += 1
+            }
+            else if sum - nums2[j] > 0 && j - 1 >= 0 {
+                j -= 1
+            }
+            else if sum - nums3[k] < 0 && k + 1 < nums1.count {
+                k += 1
+            }
+            else if sum - nums3[k] > 0 && k - 1 >= 0 {
+                k -= 1
+            }
         }
     }
-    
-    for l in 0..<lim{
-        for k in 0..<lim{
-            let sum = nums3[l] + nums4[k]
-            // check if opposite sum is exist -> sum = 0
-            if dict[0 - sum] != nil{
-                count += dict[0-sum]!
-            }
-        }
-    }
-    
-    return count
+    return 0
 }
 
-
+fourSumCount([1,2], [-2,-1], [-1,2], [0,2])
